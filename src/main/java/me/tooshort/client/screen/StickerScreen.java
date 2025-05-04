@@ -1,8 +1,10 @@
-package me.tooshort.client;
+package me.tooshort.client.screen;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.tooshort.Registration;
+import me.tooshort.networking.PostItNetworking;
+import me.tooshort.client.render.StickerEntityRenderer;
+import me.tooshort.client.render.StickerModel;
 import me.tooshort.entity.StickerEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -35,20 +37,8 @@ public class StickerScreen extends Screen {
 	private TextFieldHelper signField;
 
 	public StickerScreen(StickerEntity sticker, boolean isFiltered) {
-		this(sticker, isFiltered, Component.translatable("sign.edit"));
+		this(sticker, isFiltered, Component.translatable("note.post-it.edit"));
 	}
-
-	/* DUMMY */
-
-	public int sign_getTextLineHeight() {
-		return 10;
-	}
-
-	public int sign_getMaxTextLineWidth() {
-		return 90;
-	}
-
-	/* DUMMY */
 
 	public StickerScreen(StickerEntity sticker, boolean isFiltered, Component title) {
 		super(title);
@@ -69,7 +59,7 @@ public class StickerScreen extends Screen {
 				this::setMessage,
 				TextFieldHelper.createClipboardGetter(this.minecraft),
 				TextFieldHelper.createClipboardSetter(this.minecraft),
-				string -> this.minecraft.font.width(string) <= this.sign_getMaxTextLineWidth()
+				string -> this.minecraft.font.width(string) <= this.sticker.getMaxTextLineWidth()
 		);
 	}
 
@@ -133,7 +123,7 @@ public class StickerScreen extends Screen {
 	@Override
 	public void removed() {
 		assert this.minecraft != null;
-		ClientPlayNetworking.send(Registration.UpdateStickerTextPacket.create(this.sticker, text));
+		ClientPlayNetworking.send(PostItNetworking.UpdateStickerTextPacket.create(this.sticker, text));
 	}
 
 	@Override
@@ -174,8 +164,8 @@ public class StickerScreen extends Screen {
 		boolean bl = this.frame / 6 % 2 == 0;
 		int j = this.signField.getCursorPos();
 		int k = this.signField.getSelectionPos();
-		int l = 4 * this.sign_getTextLineHeight() / 2;
-		int m = this.line * this.sign_getTextLineHeight() - l;
+		int l = 4 * this.sticker.getTextLineHeight() / 2;
+		int m = this.line * this.sticker.getTextLineHeight() - l;
 
 		for (int n = 0; n < this.messages.length; n++) {
 			String string = this.messages[n];
@@ -185,7 +175,7 @@ public class StickerScreen extends Screen {
 				}
 
 				int o = -this.font.width(string) / 2;
-				guiGraphics.drawString(this.font, string, o, n * this.sign_getTextLineHeight() - l, i, false);
+				guiGraphics.drawString(this.font, string, o, n * this.sticker.getTextLineHeight() - l, i, false);
 				if (n == this.line && j >= 0 && bl) {
 					int p = this.font.width(string.substring(0, Math.min(j, string.length())));
 					int q = p - this.font.width(string) / 2;
@@ -202,7 +192,7 @@ public class StickerScreen extends Screen {
 				int o = this.font.width(string.substring(0, Math.min(j, string.length())));
 				int p = o - this.font.width(string) / 2;
 				if (bl && j < string.length()) {
-					guiGraphics.fill(p, m - 1, p + 1, m + this.sign_getTextLineHeight(), ARGB.opaque(i));
+					guiGraphics.fill(p, m - 1, p + 1, m + this.sticker.getTextLineHeight(), ARGB.opaque(i));
 				}
 
 				if (k != j) {
@@ -212,7 +202,7 @@ public class StickerScreen extends Screen {
 					int t = this.font.width(string.substring(0, r)) - this.font.width(string) / 2;
 					int u = Math.min(s, t);
 					int v = Math.max(s, t);
-					guiGraphics.fill(RenderType.guiTextHighlight(), u, m, v, m + this.sign_getTextLineHeight(), -16776961);
+					guiGraphics.fill(RenderType.guiTextHighlight(), u, m, v, m + this.sticker.getTextLineHeight(), -16776961);
 				}
 			}
 		}

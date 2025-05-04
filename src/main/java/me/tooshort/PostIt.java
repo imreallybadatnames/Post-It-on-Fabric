@@ -8,8 +8,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PostItOnFabric implements ModInitializer {
-	public static final String MOD_ID = "post-it-on-fabric";
+public class PostIt implements ModInitializer {
+	public static final String MOD_ID = "post-it";
 
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
@@ -32,6 +32,6 @@ public class PostItOnFabric implements ModInitializer {
 
 		LOGGER.info("Hello Sticker world!");
 
-		Registration.init();
+		Registration.register();
 	}
 }

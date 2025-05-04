@@ -1,8 +1,8 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "post-it-on-fabric:textures/entity/sticker",
-		"particle": "post-it-on-fabric:textures/entity/sticker"
+		"0": "post-it:textures/entity/sticker",
+		"particle": "post-it:textures/entity/sticker"
 	},
 	"elements": [
 		{

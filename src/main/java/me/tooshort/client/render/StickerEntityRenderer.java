@@ -1,8 +1,8 @@
-package me.tooshort.client;
+package me.tooshort.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import me.tooshort.PostItOnFabric;
+import me.tooshort.PostIt;
 import me.tooshort.entity.StickerEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -17,8 +17,8 @@ import org.joml.Vector3f;
 
 public class StickerEntityRenderer extends EntityRenderer<StickerEntity, StickerEntityRenderState> {
 	private final StickerModel model;
-	public static final ResourceLocation TEXTURE_LOCATION = PostItOnFabric.locate("textures/entity/sticker.png");
-	protected StickerEntityRenderer(EntityRendererProvider.Context context) {
+	public static final ResourceLocation TEXTURE_LOCATION = PostIt.locate("textures/entity/sticker.png");
+	public StickerEntityRenderer(EntityRendererProvider.Context context) {
 		super(context);
 		this.model = new StickerModel(context.bakeLayer(StickerModel.LAYER_LOCATION));
 	}

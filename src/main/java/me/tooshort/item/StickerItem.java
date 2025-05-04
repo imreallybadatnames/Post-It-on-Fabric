@@ -1,6 +1,6 @@
 package me.tooshort.item;
 
-import me.tooshort.Registration;
+import me.tooshort.entity.PostItEntities;
 import me.tooshort.entity.StickerEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -21,7 +21,7 @@ public class StickerItem extends Item {
 	public @NotNull InteractionResult useOn(UseOnContext context) {
 		Player player = context.getPlayer();
 		ItemStack stack = context.getItemInHand();
-		if (player == null || !stack.is(Registration.STICKER_ITEM)) return super.useOn(context);
+		if (player == null || !stack.is(PostItItems.STICKER_ITEM)) return super.useOn(context);
 
 		Direction facing = Direction.fromYRot(player.getYRot());
 		Level level = context.getLevel();
@@ -30,7 +30,7 @@ public class StickerItem extends Item {
 			Vec3 vec3 = context.getClickLocation();
 			Direction side = context.getClickedFace();
 
-			StickerEntity postItEntity = new StickerEntity(Registration.STICKER_ENTITY_TYPE, level, side, facing, stack);
+			StickerEntity postItEntity = new StickerEntity(PostItEntities.STICKER_ENTITY_TYPE, level, side, facing, stack);
 			postItEntity.setPos(vec3);
 			level.addFreshEntity(postItEntity);
 

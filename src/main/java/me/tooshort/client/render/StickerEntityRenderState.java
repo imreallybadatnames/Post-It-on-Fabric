@@ -1,4 +1,4 @@
-package me.tooshort.client;
+package me.tooshort.client.render;
 
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;

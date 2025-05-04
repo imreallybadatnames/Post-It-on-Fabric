@@ -1,9 +1,8 @@
 package me.tooshort.entity;
 
-import com.mojang.serialization.Codec;
-import me.tooshort.PostItOnFabric;
-import me.tooshort.Registration;
-import me.tooshort.client.StickerScreen;
+import me.tooshort.PostIt;
+import me.tooshort.client.screen.StickerScreen;
+import me.tooshort.item.PostItItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -30,25 +29,26 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class StickerEntity extends Entity {
-	protected static final EntityDataAccessor<Direction> FACE_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
-	protected static final EntityDataAccessor<Direction> HORI_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
+	public static final int TEXT_LINE_HEIGHT = 10;
+	public static final int MAX_TEXT_WIDTH   = 90;
 
-	protected static final EntityDataAccessor<Integer>   STICKER_COLOR  = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.INT);
-	protected static final EntityDataAccessor<SignText>  STICKER_TEXT   = SynchedEntityData.defineId(StickerEntity.class, Registration.STICKER_TEXT_DATA);
+	public static final EntityDataAccessor<Direction> FACE_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
+	public static final EntityDataAccessor<Direction> HORI_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
+
+	public static final EntityDataAccessor<Integer>   STICKER_COLOR  = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.INT);
+	public static final EntityDataAccessor<SignText>  STICKER_TEXT   = SynchedEntityData.defineId(StickerEntity.class, PostItEntities.STICKER_TEXT_DATA);
 
 	protected final ItemStack stack;
 
 	public StickerEntity(EntityType<?> entityType, Level level) {
-		this(entityType, level, Direction.UP, Direction.NORTH, new ItemStack(Registration.STICKER_ITEM));
+		this(entityType, level, Direction.UP, Direction.NORTH, new ItemStack(PostItItems.STICKER_ITEM));
 	}
 
 	public StickerEntity(EntityType<?> entityType, Level level, @NotNull Direction faceDirection, @NotNull Direction horiDirection, @NotNull ItemStack stack) {
 		super(entityType, level);
-		assert(stack.is(Registration.STICKER_ITEM));
-
 		this.stack = stack.copyWithCount(1);
 
-		SignText text = this.stack.getOrDefault(Registration.STICKER_TEXT_COMPONENT, new SignText());
+		SignText text = this.stack.getOrDefault(PostItItems.STICKER_TEXT_COMPONENT, new SignText());
 		int color     = DyedItemColor.getOrDefault(this.stack,  0xFFFFFFFF);
 
 		setText(text);
@@ -128,7 +128,7 @@ public class StickerEntity extends Entity {
 		this.setPosRaw(vec3.x, vec3.y, vec3.z);
 		this.setBoundingBox(aABB);
 
-		PostItOnFabric.LOGGER.info("New bound: {}", aABB);
+		PostIt.LOGGER.info("New bound: {}", aABB);
 	}
 
 	protected AABB calculateBoundingBox(Direction direction) {
@@ -158,13 +158,13 @@ public class StickerEntity extends Entity {
 	@Override
 	public @NotNull InteractionResult interact(Player player, InteractionHand hand) {
 		if (player.isShiftKeyDown()) {
-			PostItOnFabric.LOGGER.info("Interaction 1");
-			if (player.level().isClientSide()) return InteractionResult.PASS;
+			PostIt.LOGGER.info("Interaction 1");
+			if (player.level().isClientSide()) return InteractionResult.SUCCESS;
 
 			player.getInventory().placeItemBackInInventory(getPickupStack());
 			remove(RemovalReason.DISCARDED);
 		} else {
-			PostItOnFabric.LOGGER.info("Interaction 2");
+			PostIt.LOGGER.info("Interaction 2");
 			if (player.level().isClientSide()) openScreen();
 		}
 		return InteractionResult.SUCCESS;
@@ -174,7 +174,7 @@ public class StickerEntity extends Entity {
 		ItemStack stack = this.stack;
 
 		stack.set(DataComponents.DYED_COLOR, new DyedItemColor(color()));
-		stack.set(Registration.STICKER_TEXT_COMPONENT, text());
+		stack.set(PostItItems.STICKER_TEXT_COMPONENT, text());
 
 		return stack;
 	}
@@ -183,6 +183,13 @@ public class StickerEntity extends Entity {
 		Minecraft.getInstance().setScreen(new StickerScreen(this, false));
 	}
 
+	public int getTextLineHeight() {
+		return TEXT_LINE_HEIGHT;
+	}
+
+	public int getMaxTextLineWidth() {
+		return MAX_TEXT_WIDTH;
+	}
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
