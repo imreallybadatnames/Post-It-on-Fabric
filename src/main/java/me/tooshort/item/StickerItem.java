@@ -31,6 +31,7 @@ public class StickerItem extends Item {
 		if (player.isShiftKeyDown()) {
 			Vec3 vec3 = context.getClickLocation();
 			Direction side = context.getClickedFace();
+			if (side.getAxis().isHorizontal()) facing = side.getOpposite(); // snap facing direction to side if horizontal
 
 			StickerEntity postItEntity = new StickerEntity(PostItEntities.STICKER_ENTITY_TYPE, level, side, facing, stack);
 			postItEntity.setPos(vec3);

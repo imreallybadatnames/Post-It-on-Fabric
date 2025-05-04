@@ -30,8 +30,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 public class StickerEntity extends Entity {
-	public static final int TEXT_LINE_HEIGHT = 10;
-	public static final int MAX_TEXT_WIDTH   = 90;
+	// TODO: pick better constants
+	public static final float TEXT_SCALE       = 1F/6F;
+	public static final Vec3  TEXT_OFFSET      = new Vec3(0.0, 0.0F, 0.0F);
+	public static final int   TEXT_LINE_HEIGHT = 10;
+	public static final int   MAX_TEXT_WIDTH   = 90;
 
 	public static final EntityDataAccessor<Direction> FACE_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
 	public static final EntityDataAccessor<Direction> HORI_DIRECTION = SynchedEntityData.defineId(StickerEntity.class, EntityDataSerializers.DIRECTION);
@@ -131,7 +134,7 @@ public class StickerEntity extends Entity {
 	}
 
 	protected AABB calculateBoundingBox(Direction direction) {
-		float thickness = 0.05f;
+		float thickness = 0.0125f;
 		float length    = 0.25f;
 
 		Vec3i normal = direction.getUnitVec3i();
@@ -188,6 +191,14 @@ public class StickerEntity extends Entity {
 
 	public int getMaxTextLineWidth() {
 		return MAX_TEXT_WIDTH;
+	}
+
+	public Vec3 getTextOffset() {
+		return TEXT_OFFSET;
+	}
+
+	public float getTextScale() {
+		return TEXT_SCALE;
 	}
 
 	@Override
