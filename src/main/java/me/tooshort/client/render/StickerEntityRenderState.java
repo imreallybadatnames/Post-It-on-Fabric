@@ -1,6 +1,7 @@
 package me.tooshort.client.render;
 
 import com.mojang.math.Axis;
+import me.tooshort.item.StickerItem;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.SignText;
@@ -11,7 +12,7 @@ public class StickerEntityRenderState extends EntityRenderState {
 	public Direction horiDir = Direction.NORTH;
 
 	public SignText text  = new SignText();
-	public int      color = 0xFFFFFFFF;
+	public int      color = StickerItem.DEFAULT_COLOR;
 
 	public Quaternionf rotation = calculateQuaternionRotation(faceDir, horiDir);
 

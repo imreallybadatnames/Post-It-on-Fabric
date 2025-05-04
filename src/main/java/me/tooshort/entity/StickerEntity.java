@@ -3,6 +3,7 @@ package me.tooshort.entity;
 import me.tooshort.PostIt;
 import me.tooshort.client.screen.StickerScreen;
 import me.tooshort.item.PostItItems;
+import me.tooshort.item.StickerItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -49,7 +50,7 @@ public class StickerEntity extends Entity {
 		this.stack = stack.copyWithCount(1);
 
 		SignText text = this.stack.getOrDefault(PostItItems.STICKER_TEXT_COMPONENT, new SignText());
-		int color     = DyedItemColor.getOrDefault(this.stack,  0xFFFFFFFF);
+		int color     = DyedItemColor.getOrDefault(this.stack, StickerItem.DEFAULT_COLOR);
 
 		setText(text);
 		setColor(color);
@@ -61,7 +62,7 @@ public class StickerEntity extends Entity {
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		builder.define(FACE_DIRECTION, Direction.UP);
 		builder.define(HORI_DIRECTION, Direction.NORTH);
-		builder.define(STICKER_COLOR, 0xFFFFFFFF);
+		builder.define(STICKER_COLOR, StickerItem.DEFAULT_COLOR);
 		builder.define(STICKER_TEXT, new SignText());
 	}
 
@@ -191,7 +192,7 @@ public class StickerEntity extends Entity {
 
 	@Override
 	protected void readAdditionalSaveData(CompoundTag tag) {
-		setColor(tag.getInt("StickerColor")                       .orElse(0xFFFFFFFF));
+		setColor(tag.getInt("StickerColor")                       .orElse(StickerItem.DEFAULT_COLOR));
 		setText (tag.read  ("StickerText",  SignText.DIRECT_CODEC).orElse(new SignText()));
 
 		setHoriDirection(tag.read("HorizontalDirection", Direction.CODEC).orElse(Direction.NORTH));

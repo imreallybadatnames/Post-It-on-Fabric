@@ -13,6 +13,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class StickerItem extends Item {
+	public static final int DEFAULT_COLOR = 0xFFFFFFFF;
+
 	public StickerItem(Properties properties) {
 		super(properties);
 	}

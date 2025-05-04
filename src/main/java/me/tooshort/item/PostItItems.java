@@ -24,7 +24,7 @@ public class PostItItems {
 			new Item.Properties()
 					.setId(STICKER_ITEM_KEY)
 					.component(STICKER_TEXT_COMPONENT, new SignText())
-					.component(DataComponents.DYED_COLOR, new DyedItemColor(0xFFFFFFFF))
+					.component(DataComponents.DYED_COLOR, new DyedItemColor(StickerItem.DEFAULT_COLOR))
 	);
 
 	public static void register() {
