@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "post-it-on-fabric",
+	"version": "${version}",
+	"name": "Post It!",
+	"description": "This is an example description! Tell everyone what your mod is about!",
+	"authors": [
+		"brothers_trouble"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/post-it-on-fabric/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"me.tooshort.PostItOnFabric"
+		],
+		"client": [
+			"me.tooshort.client.PostItOnFabricClient"
+		]
+	},
+	"mixins": [
+		"post-it-on-fabric.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

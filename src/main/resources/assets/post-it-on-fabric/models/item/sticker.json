@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "post-it-on-fabric:item/sticker"
+  }
+}
