@@ -127,8 +127,6 @@ public class StickerEntity extends Entity {
 		Vec3 vec3 = aABB.getCenter();
 		this.setPosRaw(vec3.x, vec3.y, vec3.z);
 		this.setBoundingBox(aABB);
-
-		PostIt.LOGGER.info("New bound: {}", aABB);
 	}
 
 	protected AABB calculateBoundingBox(Direction direction) {
